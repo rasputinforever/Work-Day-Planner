@@ -64,10 +64,10 @@ dayTimes.forEach(function(time) {
 
 function saveNote() {
     //get elements based on clicked button's ID
-    elId = parseInt(this.id.charAt(7,12));
+    elId = parseInt(this.id.substr(7,10));
     timeEl = document.getElementById("hour-" +  elId);
     userText = document.getElementById("text-area-" + elId);
-    timeButton = document.getElementById("button-" + elId);    
+    timeButton = document.getElementById(this.id);    
     timeButton.className = "time-button btn btn-primary btn-sm";
 
     //reveal new note 
@@ -76,13 +76,20 @@ function saveNote() {
 
     //get rid of saveNote event listener
     timeButton.removeEventListener("click", saveNote);
+
+    //save note
     timeButton.addEventListener("click", function(){
+        elId = parseInt(this.id.substr(7,10));
+        timeEl = document.getElementById("hour-" +  elId);
+        userText = document.getElementById("text-area-" + elId);
+        timeButton = document.getElementById(this.id); 
         if (userText.value != '') {
             var savedNoteEl = document.createElement("p");
             savedNoteEl.innerText = userText.value;
             savedNoteEl.className = "blockquote mb-0";
             timeEl.insertBefore(savedNoteEl, userText);
         }
+
         //revert
         userText.value = '';
         userText.style.visibility = "hidden";
