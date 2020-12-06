@@ -43,6 +43,12 @@ dayTimes.forEach(function(time) {
         timeHead.innerHTML = time + " AM";
     }
 
+    //blank list for new/loaded entries
+    var timeList = document.createElement("ul");
+    timeList.id = "time-list-" + time;
+    timeList.className = "list-group";
+    timeEl.appendChild(timeList);
+
     //input text area
     var userText = document.createElement("textarea")
     timeEl.appendChild(userText);
@@ -66,7 +72,8 @@ function saveNote() {
     //get elements based on clicked button's ID
     elId = parseInt(this.id.substr(7,10));
     timeEl = document.getElementById("hour-" +  elId);
-    userText = document.getElementById("text-area-" + elId);
+    userText = document.getElementById("text-area-" + elId);    
+    timeList = document.getElementById("time-list-" + elId);
     timeButton = document.getElementById(this.id);    
     timeButton.className = "time-button btn btn-primary btn-sm";
 
@@ -81,13 +88,14 @@ function saveNote() {
     timeButton.addEventListener("click", function(){
         elId = parseInt(this.id.substr(7,10));
         timeEl = document.getElementById("hour-" +  elId);
-        userText = document.getElementById("text-area-" + elId);
+        userText = document.getElementById("text-area-" + elId); 
+        timeList = document.getElementById("time-list-" + elId);
         timeButton = document.getElementById(this.id); 
         if (userText.value != '') {
-            var savedNoteEl = document.createElement("p");
+            var savedNoteEl = document.createElement("li");
             savedNoteEl.innerText = userText.value;
-            savedNoteEl.className = "blockquote mb-0";
-            timeEl.insertBefore(savedNoteEl, userText);
+            savedNoteEl.className = "list-group-item";
+            timeList.appendChild(savedNoteEl);
         }
 
         //revert
