@@ -25,6 +25,7 @@ document.body.appendChild(scheduleArea);
 
 //each time section
 dayTimes.forEach(function(time) {
+    
     //main time area
     var timeEl = document.createElement("section");
     scheduleArea.appendChild(timeEl);
@@ -32,7 +33,8 @@ dayTimes.forEach(function(time) {
 
     //time label
     var timeHead = document.createElement("p");
-    scheduleArea.appendChild(timeHead);
+    timeHead.id = "time-head-" + time;
+    timeEl.appendChild(timeHead);
     if (time > 12)
         timeHead.innerHTML = (time - 12) + " PM";
     else {
@@ -41,14 +43,16 @@ dayTimes.forEach(function(time) {
 
     //input text area
     var userText = document.createElement("textarea")
-    scheduleArea.appendChild(userText);
-    userText.class = "text-area";
+    timeEl.appendChild(userText);
+    userText.className = "text-area";
+    userText.id = "text-area-" + time;
 
     //save button
     var timeButton = document.createElement("button");
-    scheduleArea.appendChild(timeButton);
-    timeButton.innerText = "Save";
+    timeEl.appendChild(timeButton);
+    timeButton.innerText = "New Event";
     timeButton.id = "button-" + time;
+    timeButton.class = "time-button";
     timeButton.addEventListener("click", saveNote);
 
     //any saved notes, load them here
@@ -57,6 +61,31 @@ dayTimes.forEach(function(time) {
 });
 
 function saveNote() {
-    //find parent of this.button and look down to child textarea
-    console.log("I'm a note! My ID is " + this.id)
-}
+    //get elements based on clicked button's ID
+    elId = parseInt(this.id.charAt(7,12));
+    timeEl = document.getElementById("hour-" +  elId);
+    userText = document.getElementById("text-area-" + elId);
+    timeButton = document.getElementById("button-" + elId);
+
+    //reveal new note 
+    timeButton.innerText = "Save New Note..."
+    userText.style.visibility = "visible";
+
+    //get rid of saveNote event listener
+    timeButton.removeEventListener("click", saveNote);
+    timeButton.addEventListener("click", function(){
+        if (userText.value != '') {
+            var savedNoteEl = document.createElement("p");
+            savedNoteEl.innerText = userText.value;
+            savedNoteEl.class = "time-event";
+            timeEl.appendChild(savedNoteEl);
+        }
+        //revert
+        userText.value = '';
+        userText.style.visibility = "hidden";
+        timeButton.innerText = "New Event";
+        timeButton.addEventListener("click", saveNote);
+
+    });
+};
+

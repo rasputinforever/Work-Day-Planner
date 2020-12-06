@@ -69,3 +69,12 @@ textarea{
   font-size: 20px;
   transition: all .3s ease-in-out;
 }
+
+
+/* end of given css */
+
+.text-area {
+  border-style: dotted;
+  width: 200px;
+  visibility: hidden;
+}
