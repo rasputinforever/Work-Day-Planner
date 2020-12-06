@@ -21,19 +21,21 @@ var dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
 //main area
 var scheduleArea = document.createElement("main");
+scheduleArea.className = "schedule-area card";
 document.body.appendChild(scheduleArea);
 
 //each time section
 dayTimes.forEach(function(time) {
-    
     //main time area
     var timeEl = document.createElement("section");
     scheduleArea.appendChild(timeEl);
+    timeEl.className = "card bg-light mb-3";
     timeEl.id = "hour-" + time;
 
-    //time label
-    var timeHead = document.createElement("p");
+    //time header
+    var timeHead = document.createElement("header");
     timeHead.id = "time-head-" + time;
+    timeHead.className = "card-header";
     timeEl.appendChild(timeHead);
     if (time > 12)
         timeHead.innerHTML = (time - 12) + " PM";
@@ -44,7 +46,7 @@ dayTimes.forEach(function(time) {
     //input text area
     var userText = document.createElement("textarea")
     timeEl.appendChild(userText);
-    userText.className = "text-area";
+    userText.className = "form-control text-area";
     userText.id = "text-area-" + time;
 
     //save button
@@ -52,7 +54,7 @@ dayTimes.forEach(function(time) {
     timeEl.appendChild(timeButton);
     timeButton.innerText = "New Event";
     timeButton.id = "button-" + time;
-    timeButton.class = "time-button";
+    timeButton.className = "time-button btn btn-secondary btn-sm";
     timeButton.addEventListener("click", saveNote);
 
     //any saved notes, load them here
@@ -65,7 +67,8 @@ function saveNote() {
     elId = parseInt(this.id.charAt(7,12));
     timeEl = document.getElementById("hour-" +  elId);
     userText = document.getElementById("text-area-" + elId);
-    timeButton = document.getElementById("button-" + elId);
+    timeButton = document.getElementById("button-" + elId);    
+    timeButton.className = "time-button btn btn-primary btn-sm";
 
     //reveal new note 
     timeButton.innerText = "Save New Note..."
@@ -77,15 +80,15 @@ function saveNote() {
         if (userText.value != '') {
             var savedNoteEl = document.createElement("p");
             savedNoteEl.innerText = userText.value;
-            savedNoteEl.class = "time-event";
-            timeEl.appendChild(savedNoteEl);
+            savedNoteEl.className = "blockquote mb-0";
+            timeEl.insertBefore(savedNoteEl, userText);
         }
         //revert
         userText.value = '';
         userText.style.visibility = "hidden";
         timeButton.innerText = "New Event";
-        timeButton.addEventListener("click", saveNote);
-
+        timeButton.addEventListener("click", saveNote);        
+        timeButton.className = "time-button btn btn-secondary btn-sm";
     });
 };
 

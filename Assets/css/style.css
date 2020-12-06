@@ -72,9 +72,19 @@ textarea{
 
 
 /* end of given css */
-
-.text-area {
-  border-style: dotted;
+.schedule-area {
+  margin-left: 20px;
+  margin-right: 20%;
+}
+.time-area {
+}
+.time-button {
+  position: absolute;
+  right: -225px;
   width: 200px;
+  font-size: 24px;
+  bottom: 0;
+}
+.text-area {
   visibility: hidden;
 }
