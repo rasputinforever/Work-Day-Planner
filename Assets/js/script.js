@@ -135,6 +135,11 @@ function saveNote() {
             timeList.appendChild(savedNoteEl);
         }
 
+
+        //save notes to local
+
+        saveEventsLocal();
+
         //revert
         userText.value = '';
         userText.style.visibility = "hidden";
@@ -145,16 +150,25 @@ function saveNote() {
 };
 
 
-saveEventsLocal();
 function saveEventsLocal() {
     //any saved notes, load them by crawling through array of stored info. Dynamic.
+    var newSavedNotes = [];
+    var j = 0;
 
-    dayTimes.forEach(function(time) {
+    dayTimes.forEach(function(time) {        
         var timeList = document.getElementById("time-list-" + time);
+        var newObj = {
+            time: 0,
+            events: []
+        };
+        newObj.time = time;        
         for (let i = 0; i < timeList.childNodes.length; i++) {
-            console.log(timeList.childNodes[i].innerText);        
+            newObj.events.push(timeList.childNodes[i].innerText);
         }
+        newSavedNotes.push(newObj);
+        j++;
     })    
+    console.log(newSavedNotes)
 };
 
 //editnote function
