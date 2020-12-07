@@ -21,7 +21,7 @@ var dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
 //main area
 var scheduleArea = document.createElement("main");
-scheduleArea.className = "schedule-area card";
+scheduleArea.className = "schedule-area";
 document.body.appendChild(scheduleArea);
 
 //each time section
@@ -68,6 +68,9 @@ dayTimes.forEach(function(time) {
 
 });
 
+//todos
+    // make text-area go to 0 height when inactive, instead of "hidden". 200px when active.
+    // might need to figure out how to increase area of entire time-block as notes are added.
 function saveNote() {
     //get elements based on clicked button's ID
     elId = parseInt(this.id.substr(7,10));
@@ -107,3 +110,33 @@ function saveNote() {
     });
 };
 
+//editnote function
+// when a new note is created it needs to append an "edit" button. 
+    //edit  button, ideally, is hidden. Should have a "hover-over"
+        //as an aside, the "new note" button should be a hover-over as well
+//the edit button creates a new textarea element within the note element
+    //text area same properties and size as the standard
+//the textarea is filled wtih the p-tag text
+//the p-tag text is cleared
+//the edit button is converted to save button
+//save button saves the text in textarea into p-tag
+//text-area is killed
+//button reverted
+
+//save notes to local storage
+//everytime user clicks Save, local storage is created with every note
+// should be an array of objects (to JSON)
+
+//load notes from local storage
+    //if localstorage = null, do nothing
+//parse into array of objects, one per time-block. Notes are stored as an array within object.
+//an array of arrays. 
+//each p-tag (stored note) needs to have the hover-over/button/etc added to it. Might re-use the "save note" functionality...
+
+//formatting
+//past-times need to be grey-ed out. current time-block needs to be highlighted. Future time needs to be "open looking"
+    //Get today's date == need to look at 3rd party APIs for that.
+    //today's date is reference for on-load formatting
+
+
+//bonus -- what would be... amazing would be the ability to go back to previous days, or forward a day... might be a bigger project
