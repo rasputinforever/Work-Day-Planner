@@ -17,16 +17,7 @@
 //==========================================initialize page START==========================================//
 
     //demonstration object for loading saved events, replace this with "load from local storage"
-    var savedEvents = [
-        {
-            time: 7,
-            events: ['Eat a sandwich', 'brush teeth', 'comb hair']
-        },
-        {
-            time: 17,
-            events: ['Pet the Cat', 'Wash Hands', 'Touch Eyes']
-        }
-    ];
+    var savedEvents = JSON.parse(localStorage.getItem('savedEvents'));
 
     //array defines what times are used in this app
     var dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
@@ -84,19 +75,26 @@
 
     function loadSavedevents() {
         //any saved notes, load them by crawling through array of stored info. Dynamic.
-        savedEvents.forEach(function(note){
+        
+        if (savedEvents === null) {
 
-            //grab DOM element for specific time's list
-            var timeList = document.getElementById("time-list-" + note.time);
-            
-            //loop through each event for specific time block
-            for (let i = 0; i < note.events.length; i++) {
-                var savedNoteEl = document.createElement("li");
-                savedNoteEl.innerText = note.events[i];
-                savedNoteEl.className = "list-group-item";
-                timeList.appendChild(savedNoteEl);            
-            }        
-        })
+        } else {
+            savedEvents.forEach(function(note){
+
+                //grab DOM element for specific time's list
+                var timeList = document.getElementById("time-list-" + note.time);
+                
+                //loop through each event for specific time block
+                for (let i = 0; i < note.events.length; i++) {
+                    var savedNoteEl = document.createElement("li");
+                    savedNoteEl.innerText = note.events[i];
+                    savedNoteEl.className = "list-group-item";
+                    timeList.appendChild(savedNoteEl);            
+                }        
+            })
+        };
+        
+        
     };
     
 //==========================================initialize page END==========================================//
@@ -168,7 +166,9 @@ function saveEventsLocal() {
         newSavedNotes.push(newObj);
         j++;
     })    
-    console.log(newSavedNotes)
+
+    localStorage.setItem('savedEvents', JSON.stringify(newSavedNotes));
+
 };
 
 //editnote function
