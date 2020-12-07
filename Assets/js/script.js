@@ -1,17 +1,12 @@
 //get current date-time, put date in header, use time for formatting time-block elements
 //create page elements - block per time-period (7AM-7PM)
-    //each time-block needs to have a label for time
-    //" a field for user to add a note
-    //" a button to save that note to local storage
     // each element is formatted nicely for AM and PM
         //an additional class for if time is passed
 
-
-//create main element
-//in main, add 1 section per hour from 7AM to 7PM, ID = hour, class = AM/PM
-//in each section add text area and save-button
-//each button an onClick that appends child to section with note and an "edit" button
 //add formatting class if < current time
+
+//hover-over to reveal "new note" button
+//replace stuff with jquery
 
 
 //==========================================initialize page START==========================================//
@@ -20,54 +15,33 @@
     var savedEvents = JSON.parse(localStorage.getItem('savedEvents'));
 
     //array defines what times are used in this app
-    var dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+    const dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
     //main area
-    var scheduleArea = document.createElement("main");    
-    scheduleArea.id = "schedule-area";
-    scheduleArea.className = "schedule-area";
-    document.body.appendChild(scheduleArea);
+    $('body').append(`<main id="schedule-area" class="schedule-area"></main>`)
 
     //each time section
     dayTimes.forEach(function(time) {
 
         //main time area
-        var timeEl = document.createElement("section");
-        scheduleArea.appendChild(timeEl);
-        timeEl.className = "card bg-light mb-3";
-        timeEl.id = "hour-" + time;
+        $('#schedule-area').append(`<section id="hour-${time}" class="card bg-light mb-3"></section>`)
 
-        //time header
-        var timeHead = document.createElement("header");
-        timeHead.id = "time-head-" + time;
-        timeHead.className = "card-header";
-        timeEl.appendChild(timeHead);
-        if (time > 12)
-            timeHead.innerHTML = (time - 12) + " PM";
-        else {
-            timeHead.innerHTML = time + " AM";
-        }
-        
+        //time header        
+        if (time > 12) {            
+            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header">${time - 12} PM</header>`)
+        } else {            
+            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header">${time} AM</header>`)
+        }  
+
         //blank list for new/loaded entries
-        var timeList = document.createElement("ul");
-        timeList.id = "time-list-" + time;
-        timeList.className = "list-group";
-        timeEl.appendChild(timeList);
+        $(`#hour-${time}`).append(`<ul id="time-list-${time}" class="list-group"></ul>`)
 
         //input text area
-        var userText = document.createElement("textarea")
-        timeEl.appendChild(userText);
-        userText.className = "form-control text-area";
-        userText.id = "text-area-" + time;
+        $(`#hour-${time}`).append(`<textarea id="text-area-${time}" class="form-control text-area"></textarea>`)
 
         //save button
-        var timeButton = document.createElement("button");
-        timeEl.appendChild(timeButton);
-        timeButton.innerText = "New Event";
-        timeButton.id = "button-" + time;
-        timeButton.className = "time-button btn btn-secondary btn-sm";
-        timeButton.addEventListener("click", saveNote);
-        
+        $(`#hour-${time}`).append(`<button id="button-${time}" class="time-button btn btn-secondary btn-sm">New Event</button>`)
+        $(`#button-${time}`).on("click", saveNote);        
     });
 
     //loads saved events, stored in savedEvents array
@@ -171,7 +145,8 @@ function saveEventsLocal() {
 
 };
 
-//editnote function
+
+//editnote function / delete note
 // when a new note is created it needs to append an "edit" button. 
     //edit  button, ideally, is hidden. Should have a "hover-over"
         //as an aside, the "new note" button should be a hover-over as well
