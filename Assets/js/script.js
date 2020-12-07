@@ -14,6 +14,19 @@
 //add formatting class if < current time
 
 
+
+//demonstration object for loading saved events, replace this with "load from local storage"
+var savedEvents = [
+    {
+        time: 7,
+        events: ['Eat a sandwich', 'brush teeth', 'comb hair']
+    },
+    {
+        time: 17,
+        events: ['Pet the Cat', 'Wash Hands', 'Touch Eyes']
+    }
+];
+
 //object of all time areas
 var dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
@@ -43,6 +56,7 @@ dayTimes.forEach(function(time) {
         timeHead.innerHTML = time + " AM";
     }
 
+    
     //blank list for new/loaded entries
     var timeList = document.createElement("ul");
     timeList.id = "time-list-" + time;
@@ -63,10 +77,32 @@ dayTimes.forEach(function(time) {
     timeButton.className = "time-button btn btn-secondary btn-sm";
     timeButton.addEventListener("click", saveNote);
 
-    //any saved notes, load them here
-
-
+    
 });
+
+//loads saved events, stored in savedEvents array
+loadSavedevents();
+
+function loadSavedevents() {
+
+    //any saved notes, load them by crawling through array of stored info. Dynamic.
+    savedEvents.forEach(function(note){
+
+        //grab DOM element for specific time's list
+        var timeList = document.getElementById("time-list-" + note.time);
+        
+        //loop through each event for specific time block
+        for (let i = 0; i < note.events.length; i++) {
+            var savedNoteEl = document.createElement("li");
+            savedNoteEl.innerText = note.events[i];
+            savedNoteEl.className = "list-group-item";
+            timeList.appendChild(savedNoteEl);            
+        }        
+    })
+};
+  
+
+
 
 //todos
     // make text-area go to 0 height when inactive, instead of "hidden". 200px when active.
