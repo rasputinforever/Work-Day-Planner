@@ -14,94 +14,92 @@
 //add formatting class if < current time
 
 
+//==========================================initialize page START==========================================//
 
-//demonstration object for loading saved events, replace this with "load from local storage"
-var savedEvents = [
-    {
-        time: 7,
-        events: ['Eat a sandwich', 'brush teeth', 'comb hair']
-    },
-    {
-        time: 17,
-        events: ['Pet the Cat', 'Wash Hands', 'Touch Eyes']
-    }
-];
+    //demonstration object for loading saved events, replace this with "load from local storage"
+    var savedEvents = [
+        {
+            time: 7,
+            events: ['Eat a sandwich', 'brush teeth', 'comb hair']
+        },
+        {
+            time: 17,
+            events: ['Pet the Cat', 'Wash Hands', 'Touch Eyes']
+        }
+    ];
 
-//object of all time areas
-var dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+    //array defines what times are used in this app
+    var dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
-//load previous info from local storage
+    //main area
+    var scheduleArea = document.createElement("main");    
+    scheduleArea.id = "schedule-area";
+    scheduleArea.className = "schedule-area";
+    document.body.appendChild(scheduleArea);
 
-//main area
-var scheduleArea = document.createElement("main");
-scheduleArea.className = "schedule-area";
-document.body.appendChild(scheduleArea);
+    //each time section
+    dayTimes.forEach(function(time) {
 
-//each time section
-dayTimes.forEach(function(time) {
-    //main time area
-    var timeEl = document.createElement("section");
-    scheduleArea.appendChild(timeEl);
-    timeEl.className = "card bg-light mb-3";
-    timeEl.id = "hour-" + time;
+        //main time area
+        var timeEl = document.createElement("section");
+        scheduleArea.appendChild(timeEl);
+        timeEl.className = "card bg-light mb-3";
+        timeEl.id = "hour-" + time;
 
-    //time header
-    var timeHead = document.createElement("header");
-    timeHead.id = "time-head-" + time;
-    timeHead.className = "card-header";
-    timeEl.appendChild(timeHead);
-    if (time > 12)
-        timeHead.innerHTML = (time - 12) + " PM";
-    else {
-        timeHead.innerHTML = time + " AM";
-    }
-
-    
-    //blank list for new/loaded entries
-    var timeList = document.createElement("ul");
-    timeList.id = "time-list-" + time;
-    timeList.className = "list-group";
-    timeEl.appendChild(timeList);
-
-    //input text area
-    var userText = document.createElement("textarea")
-    timeEl.appendChild(userText);
-    userText.className = "form-control text-area";
-    userText.id = "text-area-" + time;
-
-    //save button
-    var timeButton = document.createElement("button");
-    timeEl.appendChild(timeButton);
-    timeButton.innerText = "New Event";
-    timeButton.id = "button-" + time;
-    timeButton.className = "time-button btn btn-secondary btn-sm";
-    timeButton.addEventListener("click", saveNote);
-
-    
-});
-
-//loads saved events, stored in savedEvents array
-loadSavedevents();
-
-function loadSavedevents() {
-
-    //any saved notes, load them by crawling through array of stored info. Dynamic.
-    savedEvents.forEach(function(note){
-
-        //grab DOM element for specific time's list
-        var timeList = document.getElementById("time-list-" + note.time);
+        //time header
+        var timeHead = document.createElement("header");
+        timeHead.id = "time-head-" + time;
+        timeHead.className = "card-header";
+        timeEl.appendChild(timeHead);
+        if (time > 12)
+            timeHead.innerHTML = (time - 12) + " PM";
+        else {
+            timeHead.innerHTML = time + " AM";
+        }
         
-        //loop through each event for specific time block
-        for (let i = 0; i < note.events.length; i++) {
-            var savedNoteEl = document.createElement("li");
-            savedNoteEl.innerText = note.events[i];
-            savedNoteEl.className = "list-group-item";
-            timeList.appendChild(savedNoteEl);            
-        }        
-    })
-};
-  
+        //blank list for new/loaded entries
+        var timeList = document.createElement("ul");
+        timeList.id = "time-list-" + time;
+        timeList.className = "list-group";
+        timeEl.appendChild(timeList);
 
+        //input text area
+        var userText = document.createElement("textarea")
+        timeEl.appendChild(userText);
+        userText.className = "form-control text-area";
+        userText.id = "text-area-" + time;
+
+        //save button
+        var timeButton = document.createElement("button");
+        timeEl.appendChild(timeButton);
+        timeButton.innerText = "New Event";
+        timeButton.id = "button-" + time;
+        timeButton.className = "time-button btn btn-secondary btn-sm";
+        timeButton.addEventListener("click", saveNote);
+        
+    });
+
+    //loads saved events, stored in savedEvents array
+    loadSavedevents();
+
+    function loadSavedevents() {
+        //any saved notes, load them by crawling through array of stored info. Dynamic.
+        savedEvents.forEach(function(note){
+
+            //grab DOM element for specific time's list
+            var timeList = document.getElementById("time-list-" + note.time);
+            
+            //loop through each event for specific time block
+            for (let i = 0; i < note.events.length; i++) {
+                var savedNoteEl = document.createElement("li");
+                savedNoteEl.innerText = note.events[i];
+                savedNoteEl.className = "list-group-item";
+                timeList.appendChild(savedNoteEl);            
+            }        
+        })
+    };
+    
+//==========================================initialize page END==========================================//
 
 
 //todos
@@ -144,6 +142,19 @@ function saveNote() {
         timeButton.addEventListener("click", saveNote);        
         timeButton.className = "time-button btn btn-secondary btn-sm";
     });
+};
+
+
+saveEventsLocal();
+function saveEventsLocal() {
+    //any saved notes, load them by crawling through array of stored info. Dynamic.
+
+    dayTimes.forEach(function(time) {
+        var timeList = document.getElementById("time-list-" + time);
+        for (let i = 0; i < timeList.childNodes.length; i++) {
+            console.log(timeList.childNodes[i].innerText);        
+        }
+    })    
 };
 
 //editnote function
