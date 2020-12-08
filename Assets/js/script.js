@@ -8,6 +8,39 @@
 //hover-over to reveal "new note" button
 //replace stuff with jquery
 
+//API Stuff
+var queryURL = "http://worldclockapi.com/api/json/pst/now";
+$.ajax({
+  url: queryURL,
+  method: "GET"
+}).then(function(response) {
+                    
+        //console.log(response);
+
+
+
+        //put stick the DATE in the header here        
+        var date = response.dayOfTheWeek + ", " + response.currentDateTime.substr(5,5) + "-" +  response.currentDateTime.substr(0,4);
+        $('#currentDay').append(date)
+
+        // run formatting function
+        
+        var hour = response.currentDateTime.substr(11,2);
+        timeFormatting(hour);
+    });
+
+//sets formatting based on ID compared to current time hour
+function timeFormatting (hour) {
+
+    $('#schedule-area').children('section').each(function(id) {
+        if ((id+7) < hour) {
+            $(`#hour-${(id+7)}`).attr('class', 'card bg-secondary mb-3');
+        } else if (parseInt(hour) === parseInt(id+7)) {
+            $(`#hour-${(id+7)}`).attr('class', 'card bg-success mb-3');
+        }
+    });
+
+}
 
 //==========================================initialize page START==========================================//
 
