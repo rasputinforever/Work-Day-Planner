@@ -35,16 +35,17 @@
             $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header">${time} AM</header>`);
         }  
 
-        //blank list for new/loaded entries
-        $(`#hour-${time}`).append(`<ul id="time-list-${time}" class="list-group"></ul>`);
+        //list, text area, and actin button
+        $(`#hour-${time}`).append(`
+                                <ul         id="time-list-${time}"  class="list-group"></ul>
+                                <textarea   id="text-area-${time}"  class="form-control text-area"></textarea>
+                                <button     id="button-${time}"     class="time-button btn btn-secondary btn-sm">New Event</button>
+                                `);
 
-        //input text area
-        $(`#hour-${time}`).append(`<textarea id="text-area-${time}" class="form-control text-area"></textarea>`);
+        //element settings
         $(`#text-area-${time}`).hide();
-
-        //save button
-        $(`#hour-${time}`).append(`<button id="button-${time}" class="time-button btn btn-secondary btn-sm">New Event</button>`);
-        $(`#button-${time}`).on("click", saveNote);        
+        $(`#button-${time}`).on("click", saveNote);  
+                      
     });
     
     //loads saved events, stored in savedEvents array
@@ -54,13 +55,14 @@
         //any saved notes, load them by crawling through array of stored info. Dynamic.        
         if (savedEvents != null) {
             savedEvents.forEach(function(note){
-                //loop through each event for specific time block
+                //loop through each saved event, stick it into ID-specific time-block
                 for (let i = 0; i < note.events.length; i++) {
-                    $(`#time-list-${note.time}`).append(`<li class="list-group-item">${note.events[i]}<button type="button" class="btn btn-primary edit-button">EDIT</button><button type="button" class="btn btn-danger delete-button">DELETE</button></li>`);
-                    
+                    $(`#time-list-${note.time}`).append(`<li                    class="list-group-item">${note.events[i]}
+                                                        <button type="button"   class="btn btn-primary edit-button">EDIT</button>
+                                                        <button type="button"   class="btn btn-danger delete-button">DELETE</button>
+                                                        </li>`);                    
                 }        
             })
-
         //buttons for edit/delete
         addEditbuttons();
         };
@@ -83,8 +85,7 @@ function addEditbuttons() {
 function saveNote() {
 
     //get elements based on clicked button's ID for reference
-    elId = parseInt(this.id.substr(7,10));
- 
+    elId = parseInt(this.id.substr(7,10)); 
 
     if ($(`#button-${elId}`).text() === 'New Event') {
         $(`#button-${elId}`).attr('class', 'time-button btn btn-primary btn-sm');
@@ -93,21 +94,23 @@ function saveNote() {
     } else {
         var newText = $(`#text-area-${elId}`).val();
         if ($(`#text-area-${elId}`).val() != '') {
-            $(`#time-list-${elId}`).append(`<li class="list-group-item">${newText}<button type="button" class="btn btn-primary edit-button">EDIT</button><button type="button" class="btn btn-danger delete-button">DELETE</button></li>`)            
+            $(`#time-list-${elId}`).append(`<li                      class="list-group-item">${newText}
+                                            <button type="button"   class="btn btn-primary edit-button">EDIT</button>
+                                            <button type="button"   class="btn btn-danger delete-button">DELETE</button>
+                                            </li>`)            
         }
+        //add on-clicks to new buttons for edit and delete
         addEditbuttons();
         saveEventsLocal();
-
+        //revert to "new event" button settings, clear text-area
         $(`#text-area-${elId}`).val('');
         $(`#text-area-${elId}`).hide();
         $(`#button-${elId}`).text('New Event');
         $(`#button-${elId}`).attr('class', 'time-button btn btn-secondary btn-sm');  
     };
-
-        
-
 };
 
+//combs through entire schedule for events, stores all to local storage. When called after new events are created it will save the new event
 function saveEventsLocal() {
     //any saved notes, load them by crawling through array of stored info. Dynamic.
     var newSavedNotes = [];
@@ -122,15 +125,12 @@ function saveEventsLocal() {
         newObj.time = time;        
         for (let i = 0; i < timeList.childNodes.length; i++) {
             var endString = timeList.childNodes[i].innerHTML.indexOf('<');
-            newObj.events.push(timeList.childNodes[i].innerHTML.substr(0, endString));
-        
+            newObj.events.push(timeList.childNodes[i].innerHTML.substr(0, endString));        
         }
         newSavedNotes.push(newObj);
         j++;
     })    
-
     localStorage.setItem('savedEvents', JSON.stringify(newSavedNotes));
-
 };
 
 
