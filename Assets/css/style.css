@@ -85,3 +85,9 @@ textarea{
   font-size: 24px;
   bottom: 0;
 }
+.delete-button {
+  float: right;
+}
+.edit-button {
+  float: right;
+}

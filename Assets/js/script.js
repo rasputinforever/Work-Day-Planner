@@ -56,7 +56,7 @@
             savedEvents.forEach(function(note){
                 //loop through each event for specific time block
                 for (let i = 0; i < note.events.length; i++) {
-                    $(`#time-list-${note.time}`).append(`<li class="list-group-item">${note.events[i]}<button class="edit-button">edit</button><button class="delete-button">delete</button></li>`);
+                    $(`#time-list-${note.time}`).append(`<li class="list-group-item">${note.events[i]}<button type="button" class="btn btn-primary edit-button">EDIT</button><button type="button" class="btn btn-danger delete-button">DELETE</button></li>`);
                     
                 }        
             })
@@ -93,7 +93,7 @@ function saveNote() {
     } else {
         var newText = $(`#text-area-${elId}`).val();
         if ($(`#text-area-${elId}`).val() != '') {
-            $(`#time-list-${elId}`).append(`<li class="list-group-item">${newText}<button class="edit-button">edit</button><button class="delete-button">delete</button></li>`)            
+            $(`#time-list-${elId}`).append(`<li class="list-group-item">${newText}<button type="button" class="btn btn-primary edit-button">EDIT</button><button type="button" class="btn btn-danger delete-button">DELETE</button></li>`)            
         }
         addEditbuttons();
         saveEventsLocal();
