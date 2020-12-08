@@ -90,10 +90,8 @@ function saveNote() {
         $(`#button-${elId}`).attr('class', 'time-button btn btn-primary btn-sm');
         $(`#button-${elId}`).text('Save New Note...');
         $(`#text-area-${elId}`).show();
-        console.log("open to edit")
     } else {
         var newText = $(`#text-area-${elId}`).val();
-        console.log(newText);
         if ($(`#text-area-${elId}`).val() != '') {
             $(`#time-list-${elId}`).append(`<li class="list-group-item">${newText}<button class="edit-button">edit</button><button class="delete-button">delete</button></li>`)            
         }
@@ -123,7 +121,9 @@ function saveEventsLocal() {
         };
         newObj.time = time;        
         for (let i = 0; i < timeList.childNodes.length; i++) {
-            newObj.events.push(timeList.childNodes[i].innerText);
+            var endString = timeList.childNodes[i].innerHTML.indexOf('<');
+            newObj.events.push(timeList.childNodes[i].innerHTML.substr(0, endString));
+        
         }
         newSavedNotes.push(newObj);
         j++;
