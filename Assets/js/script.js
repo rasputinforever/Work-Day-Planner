@@ -87,18 +87,15 @@ function saveNote() {
         var newText = $(`#text-area-${elId}`).val();
         console.log(newText);
         if ($(`#text-area-${elId}`).val() != '') {
-            $(`#time-list-${elId}`).append(`<li class="list-group-item">${newText}</li>`)
-            
+            $(`#time-list-${elId}`).append(`<li class="list-group-item">${newText}</li>`)            
         }
 
-        //saveEventsLocal();
+        saveEventsLocal();
 
-        $(`#text-area-${elId}`).text('');
+        $(`#text-area-${elId}`).val('');
         $(`#text-area-${elId}`).hide();
         $(`#button-${elId}`).text('New Event');
         $(`#button-${elId}`).attr('class', 'time-button btn btn-secondary btn-sm');  
-
-        console.log("Saved to Page")
     };
 
         
