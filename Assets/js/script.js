@@ -17,30 +17,33 @@
     //array defines what times are used in this app
     const dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
+    var elId = 0;
+
     //main area
-    $('body').append(`<main id="schedule-area" class="schedule-area"></main>`)
+    $('body').append(`<main id="schedule-area" class="schedule-area"></main>`);
 
     //each time section
     dayTimes.forEach(function(time) {
 
         //main time area
-        $('#schedule-area').append(`<section id="hour-${time}" class="card bg-light mb-3"></section>`)
+        $('#schedule-area').append(`<section id="hour-${time}" class="card bg-light mb-3"></section>`);
 
         //time header        
         if (time > 12) {            
-            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header">${time - 12} PM</header>`)
+            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header">${time - 12} PM</header>`);
         } else {            
-            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header">${time} AM</header>`)
+            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header">${time} AM</header>`);
         }  
 
         //blank list for new/loaded entries
-        $(`#hour-${time}`).append(`<ul id="time-list-${time}" class="list-group"></ul>`)
+        $(`#hour-${time}`).append(`<ul id="time-list-${time}" class="list-group"></ul>`);
 
         //input text area
-        $(`#hour-${time}`).append(`<textarea id="text-area-${time}" class="form-control text-area"></textarea>`)
+        $(`#hour-${time}`).append(`<textarea id="text-area-${time}" class="form-control text-area"></textarea>`);
+        $(`#text-area-${time}`).hide();
 
         //save button
-        $(`#hour-${time}`).append(`<button id="button-${time}" class="time-button btn btn-secondary btn-sm">New Event</button>`)
+        $(`#hour-${time}`).append(`<button id="button-${time}" class="time-button btn btn-secondary btn-sm">New Event</button>`);
         $(`#button-${time}`).on("click", saveNote);        
     });
 
@@ -48,79 +51,59 @@
     loadSavedevents();
 
     function loadSavedevents() {
-        //any saved notes, load them by crawling through array of stored info. Dynamic.
-        
-        if (savedEvents === null) {
-
-        } else {
+        //any saved notes, load them by crawling through array of stored info. Dynamic.        
+        if (savedEvents != null) {
             savedEvents.forEach(function(note){
-
-                //grab DOM element for specific time's list
-                var timeList = document.getElementById("time-list-" + note.time);
-                
                 //loop through each event for specific time block
                 for (let i = 0; i < note.events.length; i++) {
-                    var savedNoteEl = document.createElement("li");
-                    savedNoteEl.innerText = note.events[i];
-                    savedNoteEl.className = "list-group-item";
-                    timeList.appendChild(savedNoteEl);            
+                    $(`#time-list-${note.time}`).append(`<li class="list-group-item">${note.events[i]}</li>`);
                 }        
             })
         };
-        
-        
     };
     
+
+    
 //==========================================initialize page END==========================================//
+
+
 
 
 //todos
     // make text-area go to 0 height when inactive, instead of "hidden". 200px when active.
     // might need to figure out how to increase area of entire time-block as notes are added.
 function saveNote() {
-    //get elements based on clicked button's ID
+
+    //get elements based on clicked button's ID for reference
     elId = parseInt(this.id.substr(7,10));
-    timeEl = document.getElementById("hour-" +  elId);
-    userText = document.getElementById("text-area-" + elId);    
-    timeList = document.getElementById("time-list-" + elId);
-    timeButton = document.getElementById(this.id);    
-    timeButton.className = "time-button btn btn-primary btn-sm";
+ 
 
-    //reveal new note 
-    timeButton.innerText = "Save New Note..."
-    userText.style.visibility = "visible";
-
-    //get rid of saveNote event listener
-    timeButton.removeEventListener("click", saveNote);
-
-    //save note
-    timeButton.addEventListener("click", function(){
-        elId = parseInt(this.id.substr(7,10));
-        timeEl = document.getElementById("hour-" +  elId);
-        userText = document.getElementById("text-area-" + elId); 
-        timeList = document.getElementById("time-list-" + elId);
-        timeButton = document.getElementById(this.id); 
-        if (userText.value != '') {
-            var savedNoteEl = document.createElement("li");
-            savedNoteEl.innerText = userText.value;
-            savedNoteEl.className = "list-group-item";
-            timeList.appendChild(savedNoteEl);
+    if ($(`#button-${elId}`).text() === 'New Event') {
+        $(`#button-${elId}`).attr('class', 'time-button btn btn-primary btn-sm');
+        $(`#button-${elId}`).text('Save New Note...');
+        $(`#text-area-${elId}`).show();
+        console.log("open to edit")
+    } else {
+        var newText = $(`#text-area-${elId}`).val();
+        console.log(newText);
+        if ($(`#text-area-${elId}`).val() != '') {
+            $(`#time-list-${elId}`).append(`<li class="list-group-item">${newText}</li>`)
+            
         }
 
+        //saveEventsLocal();
 
-        //save notes to local
+        $(`#text-area-${elId}`).text('');
+        $(`#text-area-${elId}`).hide();
+        $(`#button-${elId}`).text('New Event');
+        $(`#button-${elId}`).attr('class', 'time-button btn btn-secondary btn-sm');  
 
-        saveEventsLocal();
+        console.log("Saved to Page")
+    };
 
-        //revert
-        userText.value = '';
-        userText.style.visibility = "hidden";
-        timeButton.innerText = "New Event";
-        timeButton.addEventListener("click", saveNote);        
-        timeButton.className = "time-button btn btn-secondary btn-sm";
-    });
+        
+
 };
-
 
 function saveEventsLocal() {
     //any saved notes, load them by crawling through array of stored info. Dynamic.
