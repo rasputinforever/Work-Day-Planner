@@ -31,13 +31,37 @@ $.ajax({
 
 //sets formatting based on ID compared to current time hour
 function timeFormatting (hour) {
+    //list-group items
 
+
+
+    
     $('#schedule-area').children('section').each(function(id) {
+
+        
+
+        
+        
+        //headers
         if ((id+7) < hour) {
             $(`#hour-${(id+7)}`).attr('class', 'card bg-secondary mb-3');
+
+            $(`#hour-${(id+7)} ul`).children().each(function(li) {
+
+                $(this).attr('class', 'list-group-item list-group-item-dark')
+            })
+
+
+
+
         } else if (parseInt(hour) === parseInt(id+7)) {
             $(`#hour-${(id+7)}`).attr('class', 'card bg-success mb-3');
+            $(`#hour-${(id+7)} ul`).children().each(function(li) {
+
+                $(this).attr('class', 'list-group-item list-group-item-success')
+            })
         }
+
     });
 
 }
@@ -90,7 +114,7 @@ function timeFormatting (hour) {
             savedEvents.forEach(function(note){
                 //loop through each saved event, stick it into ID-specific time-block
                 for (let i = 0; i < note.events.length; i++) {
-                    $(`#time-list-${note.time}`).append(`<li                    class="list-group-item">${note.events[i]}
+                    $(`#time-list-${note.time}`).append(`<li                    class="list-group-item list-group-item-light">${note.events[i]}
                                                         <button type="button"   class="btn btn-primary edit-button">EDIT</button>
                                                         <button type="button"   class="btn btn-danger delete-button">DELETE</button>
                                                         </li>`);                    
