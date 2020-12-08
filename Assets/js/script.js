@@ -46,7 +46,7 @@
         $(`#hour-${time}`).append(`<button id="button-${time}" class="time-button btn btn-secondary btn-sm">New Event</button>`);
         $(`#button-${time}`).on("click", saveNote);        
     });
-
+    
     //loads saved events, stored in savedEvents array
     loadSavedevents();
 
@@ -56,18 +56,26 @@
             savedEvents.forEach(function(note){
                 //loop through each event for specific time block
                 for (let i = 0; i < note.events.length; i++) {
-                    $(`#time-list-${note.time}`).append(`<li class="list-group-item">${note.events[i]}</li>`);
+                    $(`#time-list-${note.time}`).append(`<li class="list-group-item">${note.events[i]}<button class="edit-button">edit</button><button class="delete-button">delete</button></li>`);
+                    
                 }        
             })
+
+        //buttons for edit/delete
+        addEditbuttons();
         };
     };
-    
-
-    
 //==========================================initialize page END==========================================//
 
 
-
+function addEditbuttons() {
+    $(`.edit-button`).on("click", function() {
+        console.log("edit!");
+    })
+    $(`.delete-button`).on("click", function() {
+        console.log("delete!");
+    })
+}
 
 //todos
     // make text-area go to 0 height when inactive, instead of "hidden". 200px when active.
@@ -87,9 +95,9 @@ function saveNote() {
         var newText = $(`#text-area-${elId}`).val();
         console.log(newText);
         if ($(`#text-area-${elId}`).val() != '') {
-            $(`#time-list-${elId}`).append(`<li class="list-group-item">${newText}</li>`)            
+            $(`#time-list-${elId}`).append(`<li class="list-group-item">${newText}<button class="edit-button">edit</button><button class="delete-button">delete</button></li>`)            
         }
-
+        addEditbuttons();
         saveEventsLocal();
 
         $(`#text-area-${elId}`).val('');
