@@ -92,11 +92,7 @@ $.ajax({
             savedEvents.forEach(function(note){
                 //loop through each saved event, stick it into ID-specific time-block
                 for (let i = 0; i < note.events.length; i++) {
-                    $(`#time-list-${note.time}`).append(`<li                    class="list-group-item list-group-item-light event-item">
-                                                        <p>${note.events[i]}</p>
-                                                        <button type="button"   class="btn btn-primary edit-button">EDIT</button>
-                                                        <button type="button"   class="btn btn-danger delete-button">DELETE</button>
-                                                        </li>`);   
+                    $(`#time-list-${note.time}`).append(`<li class="list-group-item list-group-item-light event-item"><p>${note.events[i]}</p><button type="button" class="btn btn-primary edit-button">EDIT</button><button type="button" class="btn btn-danger delete-button">DELETE</button></li>`);   
                 }        
             })
         //buttons for edit/delete
@@ -109,8 +105,9 @@ $.ajax({
 
 function addEditbuttons() {
     $(`.edit-button`).on("click", function() {
-
-
+    
+        $(this.parentNode).hide();
+        
         let endString = this.parentNode.innerText.indexOf('EDIT');
         let listItemtext = this.parentNode.innerText.substr(0, endString);
         
@@ -125,16 +122,11 @@ function addEditbuttons() {
         $(this.parentNode).next().find('button').on('click', function(){
 
             let newEventtext = $(this.parentNode).find('textarea').val();
-            
-            console.log('p tag element')
-            console.log($(this));
-            console.log($(this.parentNode));
-            console.log($(this.parentNode).prev());
-            console.log($(this.parentNode).prev().find('p'));
-            console.log($(this.parentNode).prev().find('p')[0].innerText);
+
             $(this.parentNode).prev().find('p')[0].innerText = newEventtext;
-            
+            $(this.parentNode).prev().show();
             $(this.parentNode).remove();
+            saveEventsLocal();
             
             //put new text into original li
             //console.log(newEventtext);
@@ -192,10 +184,7 @@ function saveNote() {
     } else {
         var newText = $(`#text-area-${elId}`).val();
         if ($(`#text-area-${elId}`).val() != '') {
-            $(`#time-list-${elId}`).append(`<li                      class="list-group-item event-item"><p>${newText}</p>
-                                            <button type="button"   class="btn btn-primary edit-button">EDIT</button>
-                                            <button type="button"   class="btn btn-danger delete-button">DELETE</button>
-                                            </li>`)            
+            $(`#time-list-${elId}`).append(`<li class="list-group-item event-item"><p>${newText}</p><button type="button"class="btn btn-primary edit-button">EDIT</button><button type="button" class="btn btn-danger delete-button">DELETE</button></li>`)            
         }
         //add on-clicks to new buttons for edit and delete
         addEditbuttons();
@@ -213,7 +202,6 @@ function saveNote() {
 function saveEventsLocal() {
     //any saved notes, load them by crawling through array of stored info. Dynamic.
     var newSavedNotes = [];
-    var j = 0;
 
     dayTimes.forEach(function(time) {        
         var timeList = document.getElementById("time-list-" + time);
@@ -223,11 +211,9 @@ function saveEventsLocal() {
         };
         newObj.time = time;        
         for (let i = 0; i < timeList.childNodes.length; i++) {
-            var endString = timeList.childNodes[i].innerHTML.indexOf('<');
-            newObj.events.push(timeList.childNodes[i].innerHTML.substr(0, endString));        
+            newObj.events.push(timeList.childNodes[i].childNodes[0].innerText);        
         }
         newSavedNotes.push(newObj);
-        j++;
     })    
     localStorage.setItem('savedEvents', JSON.stringify(newSavedNotes));
 };
