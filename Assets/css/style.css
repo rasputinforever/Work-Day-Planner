@@ -72,9 +72,11 @@ textarea{
 
 
 /* end of given css */
+main {
+  padding: 20px;
+}
 .schedule-area {
-  margin-left: 200px;
-  margin-right: 200px;
+ 
 
 }
 .time-area {
@@ -85,11 +87,21 @@ textarea{
 .time-button {
   width: 100%;
   font-size: 24px;
-  opacity: 35%;
 }
 .delete-button {
   float: right;
+  position: absolute;
+  bottom: 5px;
+  right: 20px;
+  opacity: 50%;
 }
 .edit-button {
   float: right;
+  position: absolute;
+  bottom: 5px;
+  right: 115px;  
+  opacity: 50%;
+}
+.event-item {
+ padding-bottom: 20px;
 }

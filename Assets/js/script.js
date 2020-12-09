@@ -31,14 +31,14 @@ $.ajax({
                 $(`#hour-${(id+7)}`).attr('class', 'time-head card bg-secondary mb-3');
                 $(`#hour-${(id+7)} ul`).children().each(function(li) {
                     //list items PAST
-                    $(this).attr('class', 'list-group-item list-group-item-dark')
+                    $(this).attr('class', 'list-group-item list-group-item-dark event-item')
                 })
             } else if (parseInt(hour) === parseInt(id+7)) {
                 //header NOW
                 $(`#hour-${(id+7)}`).attr('class', 'time-head card bg-success mb-3');
                 //list items NOW
                 $(`#hour-${(id+7)} ul`).children().each(function(li) {
-                    $(this).attr('class', 'list-group-item list-group-item-success')
+                    $(this).attr('class', 'list-group-item list-group-item-success event-item')
                 })
             }
         });
@@ -74,7 +74,7 @@ $.ajax({
         $(`#hour-${time}`).append(`
                                 <ul         id="time-list-${time}"  class="list-group"></ul>
                                 <textarea   id="text-area-${time}"  class="form-control text-area"></textarea>
-                                <button     id="button-${time}"     class="time-button btn btn-secondary btn-sm">New Event</button>
+                                <button     id="button-${time}"     class="time-button btn btn-outline-light">New Event</button>
                                 `);
 
         //element settings
@@ -92,7 +92,7 @@ $.ajax({
             savedEvents.forEach(function(note){
                 //loop through each saved event, stick it into ID-specific time-block
                 for (let i = 0; i < note.events.length; i++) {
-                    $(`#time-list-${note.time}`).append(`<li                    class="list-group-item list-group-item-light">${note.events[i]}
+                    $(`#time-list-${note.time}`).append(`<li                    class="list-group-item list-group-item-light event-item">${note.events[i]}
                                                         <button type="button"   class="btn btn-primary edit-button">EDIT</button>
                                                         <button type="button"   class="btn btn-danger delete-button">DELETE</button>
                                                         </li>`);   
@@ -109,17 +109,25 @@ $.ajax({
 function addEditbuttons() {
     $(`.edit-button`).on("click", function() {
         console.log("edit!");
+        $(this.parentNode).after("<div>I'm a EDIT placeholder!!</div>")
+        console.log(this.parentNode);
     })
     $(`.delete-button`).on("click", function() {
         console.log("delete!");
+        console.log(this.parentNode);
+        $(this.parentNode).remove();
+        saveEventsLocal();
     })
+    
+    //buttons hidden on load
+    $(`.list-group-item`).children().hide()
+    //button animations
     $(`.list-group-item`).hover(function(){
         $(this).children().show()
     }, function() {
         $(this).children().hide()
 
     })
-    $(`.list-group-item`).children().hide()
 }
 
 //todos
@@ -132,12 +140,12 @@ function saveNote() {
 
     if ($(`#button-${elId}`).text() === 'New Event') {
         $(`#button-${elId}`).attr('class', 'time-button btn btn-primary btn-sm');
-        $(`#button-${elId}`).text('Save New Note...');
+        $(`#button-${elId}`).text('Save New Event...');
         $(`#text-area-${elId}`).show();
     } else {
         var newText = $(`#text-area-${elId}`).val();
         if ($(`#text-area-${elId}`).val() != '') {
-            $(`#time-list-${elId}`).append(`<li                      class="list-group-item">${newText}
+            $(`#time-list-${elId}`).append(`<li                      class="list-group-item event-item">${newText}
                                             <button type="button"   class="btn btn-primary edit-button">EDIT</button>
                                             <button type="button"   class="btn btn-danger delete-button">DELETE</button>
                                             </li>`)            
