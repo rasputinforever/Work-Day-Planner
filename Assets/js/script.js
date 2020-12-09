@@ -28,14 +28,14 @@ $.ajax({
             //check if ID is in past or current hour
             if ((id+7) < hour) {
                 //header PAST
-                $(`#hour-${(id+7)}`).attr('class', 'time-head card bg-secondary mb-3');
+                $(`#hour-${(id+7)}`).attr('class', 'card bg-secondary mb-3');
                 $(`#hour-${(id+7)} ul`).children().each(function(li) {
                     //list items PAST
                     $(this).attr('class', 'list-group-item list-group-item-dark event-item')
                 })
             } else if (parseInt(hour) === parseInt(id+7)) {
                 //header NOW
-                $(`#hour-${(id+7)}`).attr('class', 'time-head card bg-success mb-3');
+                $(`#hour-${(id+7)}`).attr('class', 'card bg-success mb-3');
                 //list items NOW
                 $(`#hour-${(id+7)} ul`).children().each(function(li) {
                     $(this).attr('class', 'list-group-item list-group-item-success event-item')

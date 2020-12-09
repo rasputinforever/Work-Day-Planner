@@ -73,7 +73,8 @@ textarea{
 
 /* end of given css */
 main {
-  padding: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 .schedule-area {
  
@@ -83,6 +84,10 @@ main {
   float: left
 }
 .time-head {
+  text-align: center;
+  position: absolute;
+  left: -80px;
+  height: 100%;
 }
 .time-button {
   width: 100%;
