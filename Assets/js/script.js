@@ -1,70 +1,48 @@
-//get current date-time, put date in header, use time for formatting time-block elements
-//create page elements - block per time-period (7AM-7PM)
-    // each element is formatted nicely for AM and PM
-        //an additional class for if time is passed
+//hover-over for all buttons
+    //"New Event" should go from kind of invisible to "active" when hovering over the SECTION
+    //the Delete/Edit buttons should be invisible unless hovering over the specific DIV
+        //would like to change the words to SPAN images
 
-//add formatting class if < current time
-
-//hover-over to reveal "new note" button
-//replace stuff with jquery
+//Additional CSS wishlist
+    //blank time Sections should have a little gap under the header. the button for "new event", perhaps, would fit there better.
 
 //API Stuff
+var hour = 0;
 var queryURL = "http://worldclockapi.com/api/json/pst/now";
 $.ajax({
   url: queryURL,
   method: "GET"
 }).then(function(response) {
-                    
-        //console.log(response);
-
-
-
-        //put stick the DATE in the header here        
+        //header day, date inserted here        
         var date = response.dayOfTheWeek + ", " + response.currentDateTime.substr(5,5) + "-" +  response.currentDateTime.substr(0,4);
         $('#currentDay').append(date)
-
-        // run formatting function
-        
-        var hour = response.currentDateTime.substr(11,2);
+        // run through page formatting        
+        hour = response.currentDateTime.substr(11,2);
         timeFormatting(hour);
     });
 
-//sets formatting based on ID compared to current time hour
-function timeFormatting (hour) {
-    //list-group items
-
-
-
-    
-    $('#schedule-area').children('section').each(function(id) {
-
-        
-
-        
-        
-        //headers
-        if ((id+7) < hour) {
-            $(`#hour-${(id+7)}`).attr('class', 'card bg-secondary mb-3');
-
-            $(`#hour-${(id+7)} ul`).children().each(function(li) {
-
-                $(this).attr('class', 'list-group-item list-group-item-dark')
-            })
-
-
-
-
-        } else if (parseInt(hour) === parseInt(id+7)) {
-            $(`#hour-${(id+7)}`).attr('class', 'card bg-success mb-3');
-            $(`#hour-${(id+7)} ul`).children().each(function(li) {
-
-                $(this).attr('class', 'list-group-item list-group-item-success')
-            })
-        }
-
-    });
-
-}
+    //sets formatting based on ID compared to current time hour
+    function timeFormatting () {
+        //crawl through elements
+        $('#schedule-area').children('section').each(function(id) {       
+            //check if ID is in past or current hour
+            if ((id+7) < hour) {
+                //header PAST
+                $(`#hour-${(id+7)}`).attr('class', 'time-head card bg-secondary mb-3');
+                $(`#hour-${(id+7)} ul`).children().each(function(li) {
+                    //list items PAST
+                    $(this).attr('class', 'list-group-item list-group-item-dark')
+                })
+            } else if (parseInt(hour) === parseInt(id+7)) {
+                //header NOW
+                $(`#hour-${(id+7)}`).attr('class', 'time-head card bg-success mb-3');
+                //list items NOW
+                $(`#hour-${(id+7)} ul`).children().each(function(li) {
+                    $(this).attr('class', 'list-group-item list-group-item-success')
+                })
+            }
+        });
+    }
 
 //==========================================initialize page START==========================================//
 
@@ -87,9 +65,9 @@ function timeFormatting (hour) {
 
         //time header        
         if (time > 12) {            
-            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header">${time - 12} PM</header>`);
+            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header time-head">${time - 12} PM</header>`);
         } else {            
-            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header">${time} AM</header>`);
+            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header time-head">${time} AM</header>`);
         }  
 
         //list, text area, and actin button
@@ -117,13 +95,14 @@ function timeFormatting (hour) {
                     $(`#time-list-${note.time}`).append(`<li                    class="list-group-item list-group-item-light">${note.events[i]}
                                                         <button type="button"   class="btn btn-primary edit-button">EDIT</button>
                                                         <button type="button"   class="btn btn-danger delete-button">DELETE</button>
-                                                        </li>`);                    
+                                                        </li>`);   
                 }        
             })
         //buttons for edit/delete
         addEditbuttons();
         };
     };
+
 //==========================================initialize page END==========================================//
 
 
@@ -134,6 +113,13 @@ function addEditbuttons() {
     $(`.delete-button`).on("click", function() {
         console.log("delete!");
     })
+    $(`.list-group-item`).hover(function(){
+        $(this).children().show()
+    }, function() {
+        $(this).children().hide()
+
+    })
+    $(`.list-group-item`).children().hide()
 }
 
 //todos
@@ -163,7 +149,8 @@ function saveNote() {
         $(`#text-area-${elId}`).val('');
         $(`#text-area-${elId}`).hide();
         $(`#button-${elId}`).text('New Event');
-        $(`#button-${elId}`).attr('class', 'time-button btn btn-secondary btn-sm');  
+        $(`#button-${elId}`).attr('class', 'time-button btn btn-secondary btn-sm'); 
+        timeFormatting(); 
     };
 };
 
@@ -190,34 +177,6 @@ function saveEventsLocal() {
     localStorage.setItem('savedEvents', JSON.stringify(newSavedNotes));
 };
 
-
-//editnote function / delete note
-// when a new note is created it needs to append an "edit" button. 
-    //edit  button, ideally, is hidden. Should have a "hover-over"
-        //as an aside, the "new note" button should be a hover-over as well
-//the edit button creates a new textarea element within the note element
-    //text area same properties and size as the standard
-//the textarea is filled wtih the p-tag text
-//the p-tag text is cleared
-//the edit button is converted to save button
-//save button saves the text in textarea into p-tag
-//text-area is killed
-//button reverted
-
-//save notes to local storage
-//everytime user clicks Save, local storage is created with every note
-// should be an array of objects (to JSON)
-
-//load notes from local storage
-    //if localstorage = null, do nothing
-//parse into array of objects, one per time-block. Notes are stored as an array within object.
-//an array of arrays. 
-//each p-tag (stored note) needs to have the hover-over/button/etc added to it. Might re-use the "save note" functionality...
-
-//formatting
-//past-times need to be grey-ed out. current time-block needs to be highlighted. Future time needs to be "open looking"
-    //Get today's date == need to look at 3rd party APIs for that.
-    //today's date is reference for on-load formatting
-
-
-//bonus -- what would be... amazing would be the ability to go back to previous days, or forward a day... might be a bigger project
+//wish list
+    //can we delete storage if the date != today's date, replace it
+        //perhaps we can SAVE the "previous day" for quick reference
