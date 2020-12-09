@@ -6,46 +6,11 @@
 //Additional CSS wishlist
     //blank time Sections should have a little gap under the header. the button for "new event", perhaps, would fit there better.
 
-//API Stuff
-var hour = 0;
-var queryURL = "http://worldclockapi.com/api/json/pst/now";
-$.ajax({
-  url: queryURL,
-  method: "GET"
-}).then(function(response) {
-        //header day, date inserted here        
-        var date = response.dayOfTheWeek + ", " + response.currentDateTime.substr(5,5) + "-" +  response.currentDateTime.substr(0,4);
-        $('#currentDay').append(date)
-        // run through page formatting        
-        hour = response.currentDateTime.substr(11,2);
-        timeFormatting(hour);
-    });
-
-    //sets formatting based on ID compared to current time hour
-    function timeFormatting () {
-        //crawl through elements
-        $('#schedule-area').children('section').each(function(id) {       
-            //check if ID is in past or current hour
-            if ((id+7) < hour) {
-                //header PAST
-                $(`#hour-${(id+7)}`).attr('class', 'card bg-secondary mb-3');
-                $(`#hour-${(id+7)} ul`).children().each(function(li) {
-                    //list items PAST
-                    $(this).attr('class', 'list-group-item list-group-item-dark event-item')
-                })
-            } else if (parseInt(hour) === parseInt(id+7)) {
-                //header NOW
-                $(`#hour-${(id+7)}`).attr('class', 'card bg-success mb-3');
-                //list items NOW
-                $(`#hour-${(id+7)} ul`).children().each(function(li) {
-                    $(this).attr('class', 'list-group-item list-group-item-success event-item')
-                })
-            }
-        });
-    }
 
 //==========================================initialize page START==========================================//
-
+    //run API
+    loadAPI();
+    
     //demonstration object for loading saved events, replace this with "load from local storage"
     var savedEvents = JSON.parse(localStorage.getItem('savedEvents'));
 
@@ -61,7 +26,7 @@ $.ajax({
     dayTimes.forEach(function(time) {
 
         //main time area
-        $('#schedule-area').append(`<section id="hour-${time}" class="card bg-light mb-3"></section>`);
+        $('#schedule-area').append(`<section id="hour-${time}" class="card bg-muted mb-3"></section>`);
 
         //time header        
         if (time > 12) {            
@@ -74,7 +39,7 @@ $.ajax({
         $(`#hour-${time}`).append(`
                                 <ul         id="time-list-${time}"  class="list-group"></ul>
                                 <textarea   id="text-area-${time}"  class="form-control text-area"></textarea>
-                                <button     id="button-${time}"     class="time-button btn btn-outline-light">New Event</button>
+                                <button     id="button-${time}"     class="time-button btn btn-outline-muted">New Event</button>
                                 `);
 
         //element settings
@@ -193,7 +158,7 @@ function saveNote() {
         $(`#text-area-${elId}`).val('');
         $(`#text-area-${elId}`).hide();
         $(`#button-${elId}`).text('New Event');
-        $(`#button-${elId}`).attr('class', 'time-button btn btn-secondary btn-sm'); 
+        $(`#button-${elId}`).attr('class', 'time-button btn btn-outline-muted'); 
         timeFormatting(); 
     };
 };
@@ -217,6 +182,48 @@ function saveEventsLocal() {
     })    
     localStorage.setItem('savedEvents', JSON.stringify(newSavedNotes));
 };
+
+//API Stuff
+function loadAPI() {
+    
+    var hour = 0;
+    var queryURL = "http://worldclockapi.com/api/json/pst/now";
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response) {
+            //header day, date inserted here        
+            var date = response.dayOfTheWeek + ", " + response.currentDateTime.substr(5,5) + "-" +  response.currentDateTime.substr(0,4);
+            $('#currentDay').append(date)
+            // run through page formatting        
+            hour = response.currentDateTime.substr(11,2);
+            timeFormatting(hour);
+        });
+    
+        //sets formatting based on ID compared to current time hour
+        function timeFormatting () {
+            //crawl through elements
+            $('#schedule-area').children('section').each(function(id) {       
+                //check if ID is in past or current hour
+                if ((id+7) < hour) {
+                    //header PAST
+                    $(`#hour-${(id+7)}`).attr('class', 'card bg-secondary mb-3');
+                    $(`#hour-${(id+7)} ul`).children().each(function(li) {
+                        //list items PAST
+                        $(this).attr('class', 'list-group-item list-group-item-dark event-item')
+                    })
+                } else if (parseInt(hour) === parseInt(id+7)) {
+                    //header NOW
+                    $(`#hour-${(id+7)}`).attr('class', 'card bg-success mb-3');
+                    //list items NOW
+                    $(`#hour-${(id+7)} ul`).children().each(function(li) {
+                        $(this).attr('class', 'list-group-item list-group-item-success event-item')
+                    })
+                }
+            });
+        }
+    
+    };
 
 //wish list
     //can we delete storage if the date != today's date, replace it
