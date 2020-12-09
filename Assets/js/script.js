@@ -92,7 +92,8 @@ $.ajax({
             savedEvents.forEach(function(note){
                 //loop through each saved event, stick it into ID-specific time-block
                 for (let i = 0; i < note.events.length; i++) {
-                    $(`#time-list-${note.time}`).append(`<li                    class="list-group-item list-group-item-light event-item">${note.events[i]}
+                    $(`#time-list-${note.time}`).append(`<li                    class="list-group-item list-group-item-light event-item">
+                                                        <p>${note.events[i]}</p>
                                                         <button type="button"   class="btn btn-primary edit-button">EDIT</button>
                                                         <button type="button"   class="btn btn-danger delete-button">DELETE</button>
                                                         </li>`);   
@@ -113,15 +114,46 @@ function addEditbuttons() {
         let endString = this.parentNode.innerText.indexOf('EDIT');
         let listItemtext = this.parentNode.innerText.substr(0, endString);
         
+        //console.log(this.parentNode.parentNode.childNodes);
         
-        $(this.parentNode).after(`<button class="time-button btn btn-primary btn-sm">Save Changes</button>`);
-        $(this.parentNode).after(`<textarea class="form-control text-area">${listItemtext}</textarea>`);
-        
-        $(this.parentNode).hide();
+        $(this.parentNode).after(`<section>                                
+                                <textarea class="form-control text-area edit-area">${listItemtext}</textarea>
+                                <button class="time-button btn btn-primary btn-sm save-edit-button">Save Changes</button>
+                                </section>`);
+        //console.log($(this));
+        //console.log($(this.parentNode));
+        $(this.parentNode).next().find('button').on('click', function(){
 
-            $(this.parentNode.parentNode.childNodes[2]).on('click', function() {
-                    console.log("hello")
-                });
+            let newEventtext = $(this.parentNode).find('textarea').val();
+            
+            console.log('p tag element')
+            console.log($(this));
+            console.log($(this.parentNode));
+            console.log($(this.parentNode).prev());
+            console.log($(this.parentNode).prev().find('p'));
+            console.log($(this.parentNode).prev().find('p')[0].innerText);
+            $(this.parentNode).prev().find('p')[0].innerText = newEventtext;
+            
+            $(this.parentNode).remove();
+            
+            //put new text into original li
+            //console.log(newEventtext);
+            //add text without removing edit buttons
+            //console.log(' ' + $(this.parentNode).prev()[0].innerText);
+            //$(this.parentNode).prev()[0].innerText = newEventtext;
+            //kill edit section
+        })
+        // $(this.parentNode).hide();
+
+        // $(this.parentNode.parentNode.childNodes[2]).on('click', function() {
+                
+        //         //replace li text with text-area text
+        //         //kill save button
+        //         //kill edit text area
+                
+        //         $(this).remove();
+        //         $(this.parentNode).show();
+        // });
 
         
         
@@ -135,12 +167,12 @@ function addEditbuttons() {
     })
     
     //buttons hidden on load
-    $(`.list-group-item`).children().hide()
+    $(`.list-group-item`).children('button').hide()
     //button animations
     $(`.list-group-item`).hover(function(){
-        $(this).children().show()
+        $(this).children('button').show()
     }, function() {
-        $(this).children().hide()
+        $(this).children('button').hide()
 
     })
 }
@@ -160,7 +192,7 @@ function saveNote() {
     } else {
         var newText = $(`#text-area-${elId}`).val();
         if ($(`#text-area-${elId}`).val() != '') {
-            $(`#time-list-${elId}`).append(`<li                      class="list-group-item event-item">${newText}
+            $(`#time-list-${elId}`).append(`<li                      class="list-group-item event-item"><p>${newText}</p>
                                             <button type="button"   class="btn btn-primary edit-button">EDIT</button>
                                             <button type="button"   class="btn btn-danger delete-button">DELETE</button>
                                             </li>`)            
