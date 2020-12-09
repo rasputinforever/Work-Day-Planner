@@ -108,13 +108,28 @@ $.ajax({
 
 function addEditbuttons() {
     $(`.edit-button`).on("click", function() {
-        console.log("edit!");
-        $(this.parentNode).after("<div>I'm a EDIT placeholder!!</div>")
-        console.log(this.parentNode);
+
+
+        let endString = this.parentNode.innerText.indexOf('EDIT');
+        let listItemtext = this.parentNode.innerText.substr(0, endString);
+        
+        
+        $(this.parentNode).after(`<button class="time-button btn btn-primary btn-sm">Save Changes</button>`);
+        $(this.parentNode).after(`<textarea class="form-control text-area">${listItemtext}</textarea>`);
+        
+        $(this.parentNode).hide();
+
+            $(this.parentNode.parentNode.childNodes[2]).on('click', function() {
+                    console.log("hello")
+                });
+
+        
+        
+        
+
     })
     $(`.delete-button`).on("click", function() {
-        console.log("delete!");
-        console.log(this.parentNode);
+        //add a check! "ARE YOU SURE?" YES:delete, NO:nothing
         $(this.parentNode).remove();
         saveEventsLocal();
     })
