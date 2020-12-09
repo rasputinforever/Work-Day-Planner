@@ -80,6 +80,9 @@ main {
  
 
 }
+p {
+  padding-right: 10%;
+}
 .time-area {
   float: left
 }
@@ -96,14 +99,14 @@ main {
 .delete-button {
   float: right;
   position: absolute;
-  bottom: 5px;
+  bottom: 10px;
   right: 20px;
   opacity: 50%;
 }
 .edit-button {
   float: right;
   position: absolute;
-  bottom: 5px;
+  bottom: 10px;
   right: 115px;  
   opacity: 50%;
 }
