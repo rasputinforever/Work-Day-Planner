@@ -16,7 +16,7 @@
     var elId = 0;
 
     //main area
-    $('body').append(`<main id="schedule-area" class="schedule-area"></main>`);
+    $('.container').append(`<main id="schedule-area" class="schedule-area"></main>`);
 
     //each time section
     dayTimes.forEach(function(time) {
@@ -63,38 +63,29 @@
 
 //==========================================initialize page END==========================================//
 
-
+//when new notes are created or old notes loaded, run this to add these editing tools
 function addEditbuttons() {
-    $(`.edit-button`).on("click", function() {
-    
-        $(this.parentNode).hide();
-        
+    $(`.edit-button`).on("click", function() {    
+        $(this.parentNode).hide();        
         let endString = this.parentNode.innerText.indexOf('EDIT');
-        let listItemtext = this.parentNode.innerText.substr(0, endString);
-        
+        let listItemtext = this.parentNode.innerText.substr(0, endString);        
         $(this.parentNode).after(`<section>                                
                                 <textarea class="form-control text-area edit-area">${listItemtext}</textarea>
                                 <button class="time-button btn btn-primary btn-sm save-edit-button">Save Changes</button>
                                 </section>`);
-
         $(this.parentNode).next().find('button').on('click', function(){
-
             let newEventtext = $(this.parentNode).find('textarea').val();
-
             $(this.parentNode).prev().find('p')[0].innerText = newEventtext;
             $(this.parentNode).prev().show();
             $(this.parentNode).remove();
-            saveEventsLocal();
-            
+            saveEventsLocal();            
         })
-
     })
     $(`.delete-button`).on("click", function() {
         //add a check! "ARE YOU SURE?" YES:delete, NO:nothing
         $(this.parentNode).remove();
         saveEventsLocal();
-    })
-    
+    })    
     //buttons hidden on load
     $(`.list-group-item`).children('button').hide()
     //button animations
@@ -102,10 +93,10 @@ function addEditbuttons() {
         $(this).children('button').show()
     }, function() {
         $(this).children('button').hide()
-
     })
 }
 
+//run this to save a new note
 function saveNote() {
 
     //get elements based on clicked button's ID for reference
@@ -132,7 +123,7 @@ function saveNote() {
     };
 };
 
-//combs through entire schedule for events, stores all to local storage. When called after new events are created it will save the new event
+//When called after new events are created it will save all events on page, including new event.
 function saveEventsLocal() {
     //any saved notes, load them by crawling through array of stored info. Dynamic.
     var newSavedNotes = [];
@@ -150,9 +141,10 @@ function saveEventsLocal() {
         newSavedNotes.push(newObj);
     })    
     localStorage.setItem('savedEvents', JSON.stringify(newSavedNotes));
+    loadAPI();
 };
 
-//API Stuff
+//API Reference for "todays date" and "time right now"
 function loadAPI() {
     
     var hour = 0;
@@ -163,12 +155,14 @@ function loadAPI() {
     }).then(function(response) {
             //header day, date inserted here        
             var date = response.dayOfTheWeek + ", " + response.currentDateTime.substr(5,5) + "-" +  response.currentDateTime.substr(0,4);
-            $('#currentDay').append(date)
+            $('#currentDay').text(date)
+            
             // run through page formatting        
             hour = response.currentDateTime.substr(11,2);
             timeFormatting(hour);
         });
-    
+
+
         //sets formatting based on ID compared to current time hour
         function timeFormatting () {
             //crawl through elements
@@ -190,6 +184,5 @@ function loadAPI() {
                     })
                 }
             });
-        }
-    
+        }    
     };
