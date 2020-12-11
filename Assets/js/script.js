@@ -30,8 +30,11 @@
         $('#schedule-area').append(`<section id="hour-${time}" class="card bg-muted mb-3"></section>`);
 
         //time header        
+        //hour 12 needs to be PM
         if (time > 12) {            
             $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header time-head">${time - 12} PM</header>`);
+        } else if (time === 12) {            
+            $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header time-head">${time} PM</header>`);
         } else {            
             $(`#hour-${time}`).append(`<header id="time-head-${time}" class="card-header time-head">${time} AM</header>`);
         }  
@@ -79,6 +82,7 @@
 
 function clearAllEvents() {
     $('li').remove();
+    saveEventsLocal();
 }
 
 
