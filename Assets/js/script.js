@@ -47,6 +47,18 @@
                                 <button     id="button-${time}"     class="time-button btn btn-outline-muted">New Event</button>
                                 `);
 
+        $(`.time-button`).hover(function(){
+            if ($(this).text() === 'New Event') {
+                $(this).fadeTo(5, 1);
+            }
+            
+        }, function() {
+            if ($(this).text() === 'New Event') {
+                $(this).fadeTo(5, 0);
+            }
+            
+        })
+        
         //element settings
         $(`#text-area-${time}`).hide();
         $(`#button-${time}`).on("click", saveNote);  
