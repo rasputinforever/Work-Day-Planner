@@ -1,7 +1,3 @@
-//hover-over for all buttons
-        //would like to change the words to SPAN images
-//TO DO
-    //must delete notes if != today
 //==========================================initialize page START==========================================//
 
     //run API
