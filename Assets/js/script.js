@@ -45,26 +45,23 @@
                                 <ul         id="time-list-${time}"  class="list-group"></ul>
                                 <textarea   id="text-area-${time}"  class="form-control text-area"></textarea>
                                 <button     id="button-${time}"     class="time-button btn btn-outline-muted">New Event</button>
-                                `);
-
-        $(`.time-button`).hover(function(){
-            if ($(this).text() === 'New Event') {
-                $(this).fadeTo(5, 1);
-            }
-            
-        }, function() {
-            if ($(this).text() === 'New Event') {
-                $(this).fadeTo(5, 0);
-            }
-            
-        })
-        
+                                `);               
         //element settings
         $(`#text-area-${time}`).hide();
-        $(`#button-${time}`).on("click", saveNote);  
-                      
+        $(`#button-${time}`).on("click", saveNote);                        
     });
-    
+
+    //styling for New Event button
+    $(`.time-button`).hover(function(){
+        if ($(this).text() === 'New Event') {
+            $(this).fadeTo(5, 1);
+        }            
+    }, function() {
+        if ($(this).text() === 'New Event') {
+            $(this).fadeTo(5, 0);
+        }            
+    })
+
     //loads saved events, stored in savedEvents array
     loadSavedevents();
 
