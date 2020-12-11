@@ -18,6 +18,15 @@
     //main area
     $('.container').append(`<main id="schedule-area" class="schedule-area"></main>`);
 
+    //clear day button and animation
+    $('#schedule-area').append('<button id="clearAll" class="btn btn-danger">Clear All Events</button>');
+    $('#clearAll').on('click', clearAllEvents);
+    $(`#clearAll`).hover(function(){
+        $(this).fadeTo(100, 1);
+    }, function() {
+        $(this).fadeTo(100, 0.4);
+    })
+
     //each time section
     dayTimes.forEach(function(time) {
 
@@ -62,6 +71,12 @@
     };
 
 //==========================================initialize page END==========================================//
+
+function clearAllEvents() {
+    console.log("hello!")
+    $('li').remove()
+}
+
 
 //when new notes are created or old notes loaded, run this to add these editing tools
 function addEditbuttons() {
@@ -119,7 +134,7 @@ function saveNote() {
         $(`#text-area-${elId}`).hide();
         $(`#button-${elId}`).text('New Event');
         $(`#button-${elId}`).attr('class', 'time-button btn btn-outline-muted'); 
-        timeFormatting(); 
+        
     };
 };
 

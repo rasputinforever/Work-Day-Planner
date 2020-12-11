@@ -77,8 +77,13 @@ main {
   margin-right: 10%;
 }
 .schedule-area {
- 
 
+}
+#clearAll {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  opacity: 40%;
 }
 p {
   padding-right: 10%;
