@@ -78,8 +78,7 @@
 //==========================================initialize page END==========================================//
 
 function clearAllEvents() {
-    console.log("hello!")
-    $('li').remove()
+    $('li').remove();
 }
 
 
@@ -168,17 +167,17 @@ function saveEventsLocal() {
 function loadAPI() {
     
     var hour = 0;
-    var queryURL = "http://worldclockapi.com/api/json/pst/now";
+    var queryURL = "https://timezone.abstractapi.com/v1/current_time?api_key=260bc41ba21d4239ae62b1aff6ad0d1a&location=portland,%20oregon";
     $.ajax({
       url: queryURL,
       method: "GET"
     }).then(function(response) {
             //header day, date inserted here        
-            var date = response.dayOfTheWeek + ", " + response.currentDateTime.substr(5,5) + "-" +  response.currentDateTime.substr(0,4);
+            var date = response.datetime.substr(5,5) + "-" + response.datetime.substr(0,4);
             $('#currentDay').text(date)
             
             // run through page formatting        
-            hour = response.currentDateTime.substr(11,2);
+            hour = response.datetime.substr(11,2);
             timeFormatting(hour);
         });
 
