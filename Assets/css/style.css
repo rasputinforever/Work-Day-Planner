@@ -47,6 +47,7 @@ p {
   position: absolute;
   left: -80px;
   height: 100%;
+  width: 75px;
 }
 .time-button {
   width: 100%;
