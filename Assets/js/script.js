@@ -89,13 +89,15 @@ function clearAllEvents() {
 //when new notes are created or old notes loaded, run this to add these editing tools
 function addEditbuttons() {
     $(`.edit-button`).on("click", function() {    
-        $(this.parentNode).hide();        
+        $(this.parentNode).hide();    
+          
         let endString = this.parentNode.innerText.indexOf('EDIT');
         let listItemtext = this.parentNode.innerText.substr(0, endString);        
         $(this.parentNode).after(`<section>                                
                                 <textarea class="form-control text-area edit-area">${listItemtext}</textarea>
                                 <button class="time-button btn btn-primary btn-sm save-edit-button">Save Changes</button>
                                 </section>`);
+        $(this.parentNode).next().find('button').css('opacity', 1);  
         $(this.parentNode).next().find('button').on('click', function(){
             let newEventtext = $(this.parentNode).find('textarea').val();
             $(this.parentNode).prev().find('p')[0].innerText = newEventtext;
