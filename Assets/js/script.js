@@ -1,13 +1,9 @@
 //hover-over for all buttons
-    //"New Event" should go from kind of invisible to "active" when hovering over the SECTION
-    //the Delete/Edit buttons should be invisible unless hovering over the specific DIV
         //would like to change the words to SPAN images
-
-//Additional CSS wishlist
-    //blank time Sections should have a little gap under the header. the button for "new event", perhaps, would fit there better.
-
-
+//TO DO
+    //must delete notes if != today
 //==========================================initialize page START==========================================//
+
     //run API
     loadAPI();
     
@@ -76,14 +72,11 @@ function addEditbuttons() {
         let endString = this.parentNode.innerText.indexOf('EDIT');
         let listItemtext = this.parentNode.innerText.substr(0, endString);
         
-        //console.log(this.parentNode.parentNode.childNodes);
-        
         $(this.parentNode).after(`<section>                                
                                 <textarea class="form-control text-area edit-area">${listItemtext}</textarea>
                                 <button class="time-button btn btn-primary btn-sm save-edit-button">Save Changes</button>
                                 </section>`);
-        //console.log($(this));
-        //console.log($(this.parentNode));
+
         $(this.parentNode).next().find('button').on('click', function(){
 
             let newEventtext = $(this.parentNode).find('textarea').val();
@@ -93,28 +86,7 @@ function addEditbuttons() {
             $(this.parentNode).remove();
             saveEventsLocal();
             
-            //put new text into original li
-            //console.log(newEventtext);
-            //add text without removing edit buttons
-            //console.log(' ' + $(this.parentNode).prev()[0].innerText);
-            //$(this.parentNode).prev()[0].innerText = newEventtext;
-            //kill edit section
         })
-        // $(this.parentNode).hide();
-
-        // $(this.parentNode.parentNode.childNodes[2]).on('click', function() {
-                
-        //         //replace li text with text-area text
-        //         //kill save button
-        //         //kill edit text area
-                
-        //         $(this).remove();
-        //         $(this.parentNode).show();
-        // });
-
-        
-        
-        
 
     })
     $(`.delete-button`).on("click", function() {
@@ -134,9 +106,6 @@ function addEditbuttons() {
     })
 }
 
-//todos
-    // make text-area go to 0 height when inactive, instead of "hidden". 200px when active.
-    // might need to figure out how to increase area of entire time-block as notes are added.
 function saveNote() {
 
     //get elements based on clicked button's ID for reference
@@ -224,7 +193,3 @@ function loadAPI() {
         }
     
     };
-
-//wish list
-    //can we delete storage if the date != today's date, replace it
-        //perhaps we can SAVE the "previous day" for quick reference
