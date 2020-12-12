@@ -92,12 +92,14 @@ function addEditbuttons() {
         $(this.parentNode).hide();    
           
         let endString = this.parentNode.innerText.indexOf('EDIT');
-        let listItemtext = this.parentNode.innerText.substr(0, endString);        
+        let listItemtext = this.parentNode.innerText.substr(0, endString);   
+
         $(this.parentNode).after(`<section>                                
                                 <textarea class="form-control text-area edit-area">${listItemtext}</textarea>
                                 <button class="time-button btn btn-primary btn-sm save-edit-button">Save Changes</button>
                                 </section>`);
-        $(this.parentNode).next().find('button').css('opacity', 1);  
+        $(this.parentNode).next().find('button').css('opacity', 1);
+        console.log("hello");  
         $(this.parentNode).next().find('button').on('click', function(){
             let newEventtext = $(this.parentNode).find('textarea').val();
             $(this.parentNode).prev().find('p')[0].innerText = newEventtext;
