@@ -31,32 +31,33 @@ A stylesheet is also included that further improved the visual style of the plan
 
 * Header: the current date is displayed in the header. The body of the page has a time block per hour of the day. Also featured: the "clear all" button!
 
-![Header](Assets\images\header.PNG)
+![Header](Assets/images/header.PNG)
 
 
 * Dynamic Formatting
 
-![Dynamic Formatting](Assets\images\dynamic_formatting.PNG)
+![Dynamic Formatting](Assets/images/dynamic_formatting.PNG)
 
 * New Event Button HoverOver
 
-![New Event Button Appears](Assets\images\new_event.PNG)
+![New Event Button Appears](Assets/images/new_event.PNG)
 
 * Creating a new Event
 
-![Open Event Editor](Assets\images\new_event_save.PNG)
+![Open Event Editor](Assets/images/new_event_save.PNG)
 
 * Saved Event
 
-![Saved Event](Assets\images\new_event_saved.PNG)
+![Saved Event](Assets/images/new_event_saved.PNG)
 
 * Event Editors
 
-![Event Edit Buttons](Assets\images\event_editbutton.PNG)
+![Event Edit Buttons](Assets/images/event_editbutton.PNG)
 
 * Known Bug: when creating New Events, an extra event listener populates the "Edit" button. This creates DUPLICATE events. Loaded events, from local storage, do not exhibit this issue.
 
-![Header](Assets\images\bug_1.PNG)
+![Bug 1](Assets/images/bug_1.PNG)
+
 
 ## Desired Features 
 
