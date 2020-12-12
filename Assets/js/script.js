@@ -3,13 +3,14 @@
     //run API
     loadAPI();
     
-    //demonstration object for loading saved events, replace this with "load from local storage"
-    var savedEvents = JSON.parse(localStorage.getItem('savedEvents'));
+    //load from local storage. If null is OK because null does not cause issues downstream
+    let savedEvents = JSON.parse(localStorage.getItem('savedEvents'));
 
     //array defines what times are used in this app
     const dayTimes = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
-    var elId = 0;
+    //helper variable
+    let elId = 0;
 
     //main area
     $('.container').append(`<main id="schedule-area" class="schedule-area"></main>`);
@@ -80,15 +81,20 @@
 
 //==========================================initialize page END==========================================//
 
+//clears the board of events
 function clearAllEvents() {
     $('li').remove();
     saveEventsLocal();
 }
 
-
 //when new notes are created or old notes loaded, run this to add these editing tools
 function addEditbuttons() {
-    $(`.edit-button`).on("click", function() {    
+    //fixes issue where duplciate events are added by first removing all events
+    $(`.edit-button`).each(function() {
+        console.log($(this).off());
+    })
+    //adds edit functionality
+    $(`.edit-button`).on("click", function() {
         $(this.parentNode).hide();    
           
         let endString = this.parentNode.innerText.indexOf('EDIT');
@@ -99,7 +105,6 @@ function addEditbuttons() {
                                 <button class="time-button btn btn-primary btn-sm save-edit-button">Save Changes</button>
                                 </section>`);
         $(this.parentNode).next().find('button').css('opacity', 1);
-        console.log("hello");  
         $(this.parentNode).next().find('button').on('click', function(){
             let newEventtext = $(this.parentNode).find('textarea').val();
             $(this.parentNode).prev().find('p')[0].innerText = newEventtext;

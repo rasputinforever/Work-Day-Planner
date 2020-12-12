@@ -55,9 +55,13 @@ A stylesheet is also included that further improved the visual style of the plan
 ![Event Edit Buttons](Assets/images/event_editbuttons.PNG)
 
 * Known Bug: when creating New Events, an extra event listener populates the "Edit" button. This creates DUPLICATE events. Loaded events, from local storage, do not exhibit this issue.
+UPDATE: 12-11-20, 8:00 PM, Bug removed! Issue was on "addEditbuttons" where it wasn't checking if a button already had an event. Solution was to remove all events then re-add them.
 
 ![Bug 1](Assets/images/bug_1.PNG)
 
+## Functions Pathways & Events
+
+![Event Pathways](Assets/images/function_pathway.PNG)
 
 ## Desired Features 
 
