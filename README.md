@@ -36,23 +36,23 @@ A stylesheet is also included that further improved the visual style of the plan
 
 * Dynamic Formatting
 
-![Header](Assets\images\dynamic_formatting.PNG)
+![Dynamic Formatting](Assets\images\dynamic_formatting.PNG)
 
 * New Event Button HoverOver
 
-![Header](Assets\images\new_event.PNG)
+![New Event Button Appears](Assets\images\new_event.PNG)
 
 * Creating a new Event
 
-![Header](Assets\images\new_event_save.PNG)
+![Open Event Editor](Assets\images\new_event_save.PNG)
 
 * Saved Event
 
-![Header](Assets\images\new_event_saved.PNG)
+![Saved Event](Assets\images\new_event_saved.PNG)
 
 * Event Editors
 
-![Header](Assets\images\event_editbutton.PNG)
+![Event Edit Buttons](Assets\images\event_editbutton.PNG)
 
 * Known Bug: when creating New Events, an extra event listener populates the "Edit" button. This creates DUPLICATE events. Loaded events, from local storage, do not exhibit this issue.
 
