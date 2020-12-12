@@ -52,7 +52,7 @@ A stylesheet is also included that further improved the visual style of the plan
 
 * Event Editors
 
-![Event Edit Buttons](Assets/images/event_editbutton.PNG)
+![Event Edit Buttons](Assets/images/event_editbuttons.PNG)
 
 * Known Bug: when creating New Events, an extra event listener populates the "Edit" button. This creates DUPLICATE events. Loaded events, from local storage, do not exhibit this issue.
 
